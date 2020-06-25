@@ -16,8 +16,6 @@
 # For Heiko:
 #TEST_MMAP=1
 
-MAP_SIZE_POW2 ?= 16
-
 PREFIX     ?= /usr/local
 BIN_PATH    = $(PREFIX)/bin
 HELPER_PATH = $(PREFIX)/lib/afl
@@ -61,7 +59,7 @@ endif
 #CFLAGS     ?= -O3 -funroll-loops $(CFLAGS_OPT)
 CFLAGS     += -O3 -funroll-loops -march=native -Wall -g -Wno-pointer-sign -I include/ \
               -DAFL_PATH=\"$(HELPER_PATH)\" -DBIN_PATH=\"$(BIN_PATH)\" \
-              -DDOC_PATH=\"$(DOC_PATH)\" -Wno-unused-function -DMAP_SIZE_POW2=$(MAP_SIZE_POW2)
+              -DDOC_PATH=\"$(DOC_PATH)\" -Wno-unused-function
 
 AFL_FUZZ_FILES = $(wildcard src/afl-fuzz*.c)
 

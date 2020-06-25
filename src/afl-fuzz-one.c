@@ -389,8 +389,8 @@ u8 fuzz_one_original(char** argv) {
 
   if (not_on_tty) {
 
-    ACTF("Fuzzing test case #%u (%u total, %llu uniq crashes found)...",
-         current_entry, queued_paths, unique_crashes);
+    ACTF("Fuzzing test case #%u (%u total, %llu uniq crashes found, %u edges covered)...",
+         current_entry, queued_paths, unique_crashes, trace_idx[0]);
     fflush(stdout);
 
   }
@@ -2477,8 +2477,8 @@ u8 common_fuzzing(char** argv, struct MOpt_globals_t MOpt_globals) {
 
   if (not_on_tty) {
 
-    ACTF("Fuzzing test case #%u (%u total, %llu uniq crashes found)...",
-         current_entry, queued_paths, unique_crashes);
+	ACTF("Fuzzing test case #%u (%u total, %llu uniq crashes found, %u edges covered)...",
+         current_entry, queued_paths, unique_crashes, trace_idx[0]);
     fflush(stdout);
 
   }

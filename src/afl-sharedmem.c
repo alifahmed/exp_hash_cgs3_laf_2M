@@ -210,6 +210,7 @@ void setup_shm(unsigned char dumb_mode) {
   trace_idx[0] = 0;
   map_used = 0;
 
+  MEM_BARRIER();
   if (cmplog_mode) cmp_map = shmat(cmplog_shm_id, NULL, 0);
 
 #endif

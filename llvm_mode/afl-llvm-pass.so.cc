@@ -243,7 +243,7 @@ bool AFLCoverage::runOnModule(Module &M) {
   			Value* cond = IRB.CreateICmpEQ(ConstantInt::get(Int32Ty, -1), idxVal);
 
   			//create then block
-  			TerminatorInst* then = SplitBlockAndInsertIfThen(cond, &(*IP), false, MDBuilder(C).createBranchWeights(1, 100000));
+  			Instruction* then = SplitBlockAndInsertIfThen(cond, &(*IP), false, MDBuilder(C).createBranchWeights(1, 100000));
   			assert(dyn_cast<BranchInst>(then)->isUnconditional());
 
   			//instrument then block

@@ -19,9 +19,6 @@
 # For Heiko:
 #TEST_MMAP=1
 
-MAP_SIZE_POW2 ?= 16
-
-PREFIX      ?= /usr/local
 HELPER_PATH  = $(PREFIX)/lib/afl
 BIN_PATH     = $(PREFIX)/bin
 
@@ -70,16 +67,16 @@ endif
 CFLAGS      += -O3 -funroll-loops -march=native -Wall -D_FORTIFY_SOURCE=2 -g -Wno-pointer-sign -I ../include/ \
                -DAFL_PATH=\"$(HELPER_PATH)\" -DBIN_PATH=\"$(BIN_PATH)\" \
                -DLLVM_BINDIR=\"$(LLVM_BINDIR)\" -DVERSION=\"$(VERSION)\" \
-               -DLLVM_VERSION=\"$(LLVMVER)\" -DMAP_SIZE_POW2=$(MAP_SIZE_POW2)
+               -DLLVM_VERSION=\"$(LLVMVER)\"
 ifdef AFL_TRACE_PC
   CFLAGS    += -DUSE_TRACE_PC=1
 endif
 
 #CXXFLAGS    ?= -O3 -funroll-loops
 CXXFLAGS    += -O3 -funroll-loops -march=native -Wall -D_FORTIFY_SOURCE=2 -g -I ../include/ \
-               -DVERSION=\"$(VERSION)\" -Wno-variadic-macros -DMAP_SIZE_POW2=$(MAP_SIZE_POW2)
+               -DVERSION=\"$(VERSION)\" -Wno-variadic-macros
 
-CLANG_CFL    = `$(LLVM_CONFIG) --cxxflags` -Wl,-znodelete -fno-rtti -fpic $(CXXFLAGS) -DMAP_SIZE_POW2=$(MAP_SIZE_POW2)
+CLANG_CFL    = `$(LLVM_CONFIG) --cxxflags` -Wl,-znodelete -fno-rtti -fpic $(CXXFLAGS)
 CLANG_LFL    = `$(LLVM_CONFIG) --ldflags` $(LDFLAGS)
 
 

@@ -68,10 +68,12 @@ u32* __afl_idx_ptr = __afl_idx_initial;
 u32 __afl_prev_loc1;
 u32 __afl_prev_loc2;
 u32 __afl_prev_loc3;
+u32 __afl_prev_loc4;
 #else
 __thread u32 __afl_prev_loc1;
 __thread u32 __afl_prev_loc2;
 __thread u32 __afl_prev_loc3;
+__thread u32 __afl_prev_loc4;
 #endif
 
 /* Running in persistent mode? */
@@ -248,6 +250,7 @@ int __afl_persistent_loop(unsigned int max_cnt) {
       __afl_prev_loc1 = 0;
       __afl_prev_loc2 = 0;
       __afl_prev_loc3 = 0;
+	  __afl_prev_loc4 = 0;
     }
 
     cycle_cnt = max_cnt;
@@ -266,6 +269,7 @@ int __afl_persistent_loop(unsigned int max_cnt) {
       __afl_prev_loc1 = 0;
       __afl_prev_loc2 = 0;
       __afl_prev_loc3 = 0;
+      __afl_prev_loc4 = 0;
 
       return 1;
 
