@@ -152,7 +152,7 @@ endif
 ifeq "$(NO_BUILD)" "1"
   TARGETS = no_build
 else
-  TARGETS = test_shm test_deps $(PROGS) afl-clang-fast.8 test_build all_done
+  TARGETS = test_shm test_deps $(PROGS) afl-clang-fast.8 all_done
 endif
 
 all: $(TARGETS)
@@ -245,7 +245,7 @@ test_build: $(PROGS)
 	@cmp -s .test-instr0 .test-instr1; DR="$$?"; rm -f .test-instr0 .test-instr1; if [ "$$DR" = "0" ]; then echo; echo "Oops, the instrumentation does not seem to be behaving correctly!"; echo; echo "Please post to https://github.com/vanhauser-thc/AFLplusplus/issues to troubleshoot the issue."; echo; exit 1; fi
 	@echo "[+] All right, the instrumentation seems to be working!"
 
-all_done: test_build
+all_done:
 	@echo "[+] All done! You can now use '../afl-clang-fast' to compile programs."
 
 .NOTPARALLEL: clean
