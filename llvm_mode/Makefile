@@ -145,9 +145,9 @@ ifeq "$(LLVMVER)" ""
   NO_BUILD = 1
 endif
 
-ifneq "$(LLVM_UNSUPPORTED)$(LLVM_APPLE)" "00"
-  NO_BUILD = 1
-endif
+#ifneq "$(LLVM_UNSUPPORTED)$(LLVM_APPLE)" "00"
+#  NO_BUILD = 1
+#endif
 
 ifeq "$(NO_BUILD)" "1"
   TARGETS = no_build

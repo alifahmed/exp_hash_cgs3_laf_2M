@@ -64,6 +64,10 @@ u8* __afl_area_ptr = __afl_area_initial;
 u32  __afl_idx_initial[MAP_SIZE];
 u32* __afl_idx_ptr = __afl_idx_initial;
 
+static char isAlloc[MAP_SIZE];
+static int nDraw = 0;
+static int nColl = 0;
+
 #ifdef __ANDROID__
 u32 __afl_prev_loc1;
 u32 __afl_prev_loc2;
@@ -153,6 +157,11 @@ static void __afl_start_forkserver(void) {
   u8 child_stopped = 0;
 
   void (*old_sigchld_handler)(int) = 0;  // = signal(SIGCHLD, SIG_DFL);
+
+	FILE* fp = fopen("edgeLog.txt", "w");
+	fprintf(fp, "[ALIF] Number of draws (edges): %u\n", nDraw);
+	fprintf(fp, "[ALIF] Number of collisions: %u\n", nColl);
+	fclose(fp);
 
   /* Phone home and tell the parent that we're OK. If parent isn't there,
      assume we're not running in forkserver mode and just execute program. */
@@ -331,6 +340,18 @@ void __sanitizer_cov_trace_pc_guard(uint32_t* guard) {
 
 }
 
+
+uint32_t R_draw(){
+	nDraw++;
+	uint32_t res = R(MAP_SIZE - 1) + 1;
+	if(isAlloc[res-1]){
+		nColl++;
+	} else{
+		isAlloc[res-1] = 1;
+	}
+	return res;
+}
+
 /* Init callback. Populates instrumentation IDs. Note that we're using
    ID of 0 as a special value to indicate non-instrumented bits. That may
    still touch the bitmap, but in a fairly harmless way. */
@@ -356,12 +377,12 @@ void __sanitizer_cov_trace_pc_guard_init(uint32_t* start, uint32_t* stop) {
      to avoid duplicate calls (which can happen as an artifact of the underlying
      implementation in LLVM). */
 
-  *(start++) = R(MAP_SIZE - 1) + 1;
+  *(start++) = R_draw();//(MAP_SIZE - 1) + 1;
 
   while (start < stop) {
 
     if (R(100) < inst_ratio)
-      *start = R(MAP_SIZE - 1) + 1;
+      *start = R_draw();//(MAP_SIZE - 1) + 1;
     else
       *start = 0;
 
